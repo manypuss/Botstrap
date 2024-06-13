@@ -34,15 +34,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void saveUserWithRole(User user, Collection<Long> roleIds) {
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.saveUserWithRole(user, roleIds);
-    }
-
-    @Override
-    @Transactional
-    public User getUserById(Long id) {
-        return userDAO.getUserById(id);
+        userDAO.saveUser(user);
     }
 
     @Override

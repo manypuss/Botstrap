@@ -34,26 +34,10 @@ public class AdminController {
         return "admin-page";
     }
 
-   /* @GetMapping("/admin/profile")
-    public String getAdminProfile(@ModelAttribute("newUser") User user, Principal principal, Model model) {
-        model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("allUsers", userService.getAllUsers());
-        model.addAttribute("activeTable", "userProfile");
-        return "admin-page";
-    }*/
-
-   /* @GetMapping("/admin/addNewUser")
-    public String createUserModel(Model model) {
-        model.addAttribute("newUser", new User());
-        model.addAttribute("allRoles", roleService.getAllRoles());
-        model.addAttribute("activeTable", "addUser");
-        return "admin-page";
-    }*/
 
     @PostMapping("/admin")
     public String saveNewUser(@ModelAttribute("newUser") @Valid User user, BindingResult bindingResult,
-                              @RequestParam("roleIds") Collection<Long> roleIds,Principal principal, Model model ) {
+                              Principal principal, Model model ) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
             model.addAttribute("allRoles", roleService.getAllRoles());
@@ -61,21 +45,20 @@ public class AdminController {
             model.addAttribute("activeTable", "addUser");
             return "admin-page";
         }
-        userService.saveUserWithRole(user, roleIds);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/admin")
     public String edit(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                       @RequestParam("roleIds") Collection<Long> roleIds,
-                       Model model, Principal principal) {
+                                              Model model, Principal principal) {
 
         model.addAttribute("admin", userService.getUserByUsername(principal.getName()));
         model.addAttribute("allRoles", roleService.getAllRoles());
         if (bindingResult.hasErrors()) {
             return "admin-page";
         }
-        userService.saveUserWithRole(user, roleIds);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 

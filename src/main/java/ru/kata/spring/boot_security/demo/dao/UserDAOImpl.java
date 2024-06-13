@@ -23,21 +23,8 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void saveUserWithRole(User user, Collection<Long> roleIds) {
-        Collection<Role> rolesById = new HashSet<>();
-        for (Long roleId : roleIds) {
-            Role role = entityManager.find(Role.class, roleId);
-            if (role != null) {
-                rolesById.add(role);
-            }
-        }
-        user.setRoles(rolesById);
+    public void saveUser(User user) {
         entityManager.merge(user);
-    }
-
-    @Override
-    public User getUserById(Long id) {
-        return entityManager.find(User.class, id);
     }
 
     @Override

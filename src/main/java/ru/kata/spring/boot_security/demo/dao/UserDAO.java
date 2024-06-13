@@ -9,9 +9,7 @@ import java.util.List;
 public interface UserDAO {
     List<User> getAllUsers();
 
-    void saveUserWithRole(User user, Collection<Long> roleIds);
-
-    User getUserById(Long id);
+    void saveUser(User user);
 
     void deleteUserById(Long id);
 

@@ -186,13 +186,19 @@
                                                                                        th:value="${user.getPassword()}"/>
                                                                             </div>
                                                                             <div class="mb-2">
-                                                                                <label for="_role_${role.id}">Roles:</label><br>
-                                                                                <div th:each="role : ${allRoles}">
-                                                                                    <input type="checkbox" id="_role_${role.id}" name="roleIds" th:value="${role.getId()}"
-                                                                                           th:checked="${user.getRoles() != null and user.getRoles().contains(role)}"
-                                                                                           th:attr="required=${role == allRoles[1]}">
-                                                                                    <label for="_role_${role.id}" th:text="${role.getName().substring(5)}"></label><br>
-                                                                                </div><br>
+                                                                                <label for="allRoles"><b>Role</b></label>
+                                                                                <select multiple class="form-control"
+                                                                                        id="allRoles" name="roles"
+                                                                                        th:size="${allRoles.size()}"
+                                                                                        required>
+                                                                                    <option th:each="role:${allRoles}"
+                                                                                            th:value="${role.id}"
+                                                                                            th:selected="${user.getRoles().contains(role)}">
+                                                                                        <th:block
+                                                                                                th:text="${#strings.replace(role.getName(), 'ROLE_', '')}">
+                                                                                        </th:block>
+                                                                                    </option>
+                                                                                </select>
                                                                             </div>
                                                                             <div class="modal-footer">
                                                                                 <button type="button" class="btn btn-secondary"
@@ -345,13 +351,18 @@
                                                                 Password Error
                                                             </div>
                                                         </div>
-                                                        <label for="role_${role.id}">Roles:</label><br>
-                                                        <div th:each="role : ${allRoles}">
-                                                            <input type="checkbox" id="role_${role.id}" name="roleIds" th:value="${role.getId()}"
-                                                                   th:checked="${newUser.getRoles() != null and newUser.getRoles().contains(role)}"
-                                                                   th:attr="required=${role == allRoles[1]}">
-                                                            <label for="role_${role.id}" th:text="${role.getName().substring(5)}"></label><br>
-                                                        </div><br>
+                                                        <div class="form-group">
+                                                            <label class="font-weight-bold" for="rolesNew">Role</label>
+                                                            <select class="custom-select form-control" id="rolesNew"
+                                                                    name="roles"
+                                                                    multiple
+                                                                    size="2">
+                                                                <option th:each="role : ${allRoles}"
+                                                                        th:value="${role.id}"
+                                                                        th:text="${#strings.replace(role.getName(), 'ROLE_', '')}"
+                                                                        th:field="*{roles}"></option>
+                                                            </select>
+                                                        </div>
                                                         <div class="d-grid col-6 mx-auto">
                                                             <input type="submit" class="btn btn-success" value="Add new user"/>
                                                         </div>
